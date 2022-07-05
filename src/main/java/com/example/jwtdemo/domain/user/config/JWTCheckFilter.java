@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JWTCheckFilter extends BasicAuthenticationFilter {
+public class JWTCheckFilter extends BasicAuthenticationFilter { // 매번 리퀘스트가 올때 마다 토큰을 검사를해서 시큐리티 컨텍스트 홀더에 유저 principal 정보를 채워주는 역할
 
     private UserService userService;
 
@@ -25,9 +25,10 @@ public class JWTCheckFilter extends BasicAuthenticationFilter {
         this.userService = userService;
     }
 
+    // 토큰검사
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String bearer = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String bearer = request.getHeader(HttpHeaders.AUTHORIZATION); //
         if(bearer == null || !bearer.startsWith("Bearer ")){
             chain.doFilter(request, response);
             return;

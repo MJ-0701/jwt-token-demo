@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Username,Password 를 받아서 유효하면 인증 토큰을 내려주는 필터.
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private UserService userService;
@@ -34,15 +34,15 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @SneakyThrows
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException { // 사용자 인증 처리
 
         UserLoginRequestDto userLogin = objectMapper.readValue(request.getInputStream(), UserLoginRequestDto.class);
         if(userLogin.getRefreshToken() == null){
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken( // 토큰  인증되기 전이기 때문에  Authorities null
                     userLogin.getUserId(), userLogin.getPassword(),null
             );
             // user details...
-            return getAuthenticationManager().authenticate(token);
+            return getAuthenticationManager().authenticate(token); // getAuthenticationManager 토큰 검증 요청
         }else{
             TokenVerifyResult verify = JWTUtil.verify(userLogin.getRefreshToken());
             if(verify.isSuccess()){
@@ -59,14 +59,18 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication( // 검증이 제대로 됐다면 해당 메소드가 호출됨.
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain,
+            Authentication authResult) throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
-//        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer" + JWTUtil.makeAuthToken(user));
-//        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+//        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer" + JWTUtil.makeAuthToken(user)); // 토큰 발행 ->  Bearer 토큰이라고 명시해줌(규약)
+//        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE); // json 값을 받기위한 설정.
 //        response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
 
         response.setHeader("auth_token", JWTUtil.makeAuthToken(user));
-        response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user));
+        response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user)); //
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
     }

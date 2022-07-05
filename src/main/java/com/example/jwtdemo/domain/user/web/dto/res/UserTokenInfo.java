@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 public class UserTokenInfo {
 
-    private String accessToken;
+    private String authToken;
 
     private String refreshToken;
 

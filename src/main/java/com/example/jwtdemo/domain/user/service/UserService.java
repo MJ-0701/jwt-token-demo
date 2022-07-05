@@ -21,6 +21,11 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Transactional
+    public User save(User user){
+        return userRepository.save(user);
+    }
+
+    @Transactional
     public Long createUser(UserSaveReqDto reqDto){
         return userRepository.save(reqDto.toEntity()).getIdx();
     }
@@ -41,13 +46,13 @@ public class UserService implements UserDetailsService {
                 HashSet<UserAuthority> authorities = new HashSet<>();
                 authorities.add(newRole);
                 user.setAuthorities(authorities);
-                createUser(user.toDto());
+                save(user);
             }else if(!user.getAuthorities().contains(newRole)){
                 HashSet<UserAuthority> authorities = new HashSet<>();
                 authorities.addAll(user.getAuthorities());
                 authorities.add(newRole);
                 user.setAuthorities(authorities);
-                createUser(user.toDto());
+                save(user);
             }
         });
     }
@@ -61,7 +66,7 @@ public class UserService implements UserDetailsService {
                         user.getAuthorities().stream().filter(auth->!auth.equals(targetRole))
                                 .collect(Collectors.toSet())
                 );
-                createUser(user.toDto());
+                save(user);
             }
         });
     }
