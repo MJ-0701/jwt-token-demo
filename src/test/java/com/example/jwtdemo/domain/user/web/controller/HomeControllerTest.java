@@ -94,7 +94,7 @@ class HomeControllerTest extends WebIntegrationTest {
         });
 
         token = refreshToken(token.getRefreshToken());
-        HttpHeaders header2 = new HttpHeaders();
+        HttpHeaders header2 = new HttpHeaders(); // 토큰을 다시 받아왔기 대문에 헤더를 다시 만든다.
         header2.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
         HttpEntity body = new HttpEntity<>(null, header2);
         ResponseEntity<String> resp3 = client.exchange(uri("/greeting"), HttpMethod.GET, body, String.class);

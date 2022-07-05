@@ -26,8 +26,9 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
     private ObjectMapper objectMapper = new ObjectMapper();
     private UserService userService;
 
-    public JWTLoginFilter(AuthenticationManager authenticationManager){
+    public JWTLoginFilter(AuthenticationManager authenticationManager, UserService userService){
         super(authenticationManager);
+        this.userService = userService;
         setFilterProcessesUrl("/login");
     }
 
