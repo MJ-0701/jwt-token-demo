@@ -47,7 +47,7 @@ class HomeControllerTest extends WebIntegrationTest {
                 UserLoginRequestDto.builder().userId("user1").password("1111").build()
         );
         ResponseEntity<User> resp1 = client.exchange(uri("/login"), HttpMethod.POST, body, User.class);
-        return UserTokenInfo.builder().authToken(resp1.getHeaders().get("auth_token").get(0))
+        return UserTokenInfo.builder().authToken(resp1.getHeaders().get("auth_token").get(0)) // 실제 토큰생성 구간
                 .refreshToken(resp1.getHeaders().get("refresh_token").get(0))
                 .build();
     }
@@ -63,7 +63,7 @@ class HomeControllerTest extends WebIntegrationTest {
                 .build();
     }
 
-    @DisplayName("1. hello 메시지를 받아온다... ")
+    @DisplayName("1. hello 메시지를 받아온다. ")
     @Test
     void test_1(){
         UserTokenInfo token = getToken();
@@ -71,7 +71,7 @@ class HomeControllerTest extends WebIntegrationTest {
         RestTemplate client = new RestTemplate();
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
-        HttpEntity body = new HttpEntity<>(null, header);
+        HttpEntity body = new HttpEntity<>(null, header); // 실제 토큰에 헤더값이 붙는 구간
 
         ResponseEntity<String> resp2 = client.exchange(uri("/greeting"), HttpMethod.GET, body, String.class);
 
@@ -94,7 +94,7 @@ class HomeControllerTest extends WebIntegrationTest {
         });
 
         token = refreshToken(token.getRefreshToken());
-        HttpHeaders header2 = new HttpHeaders(); // 토큰을 다시 받아왔기 대문에 헤더를 다시 만든다.
+        HttpHeaders header2 = new HttpHeaders(); // 토큰을 다시 받아왔기 때문에 헤더를 다시 만든다.
         header2.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
         HttpEntity body = new HttpEntity<>(null, header2);
         ResponseEntity<String> resp3 = client.exchange(uri("/greeting"), HttpMethod.GET, body, String.class);

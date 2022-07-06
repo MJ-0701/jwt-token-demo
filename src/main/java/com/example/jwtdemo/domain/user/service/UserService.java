@@ -22,6 +22,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public User save(User user){
+
         return userRepository.save(user);
     }
 
@@ -73,7 +74,7 @@ public class UserService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // 토큰에 저장된 유저 정보를 활용해야 하기 때문에 UserDetailService를 상속받아 재정의
         return userRepository.findByUserId(username).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
     }
 }

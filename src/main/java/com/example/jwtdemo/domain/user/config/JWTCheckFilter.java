@@ -27,7 +27,10 @@ public class JWTCheckFilter extends BasicAuthenticationFilter { // 매번 리퀘
 
     // 토큰검사
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
         String bearer = request.getHeader(HttpHeaders.AUTHORIZATION); //
         if(bearer == null || !bearer.startsWith("Bearer ")){
             chain.doFilter(request, response);

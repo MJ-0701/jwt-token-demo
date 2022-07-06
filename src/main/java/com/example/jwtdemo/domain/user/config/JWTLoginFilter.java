@@ -6,6 +6,7 @@ import com.example.jwtdemo.domain.user.service.UserService;
 import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.res.TokenVerifyResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,10 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Username,Password 를 받아서 유효하면 인증 토큰을 내려주는 필터.
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private UserService userService;
+
+
 
     public JWTLoginFilter(AuthenticationManager authenticationManager, UserService userService){
         super(authenticationManager);

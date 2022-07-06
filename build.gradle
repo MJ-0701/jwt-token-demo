@@ -35,6 +35,7 @@ dependencies {
 
     // jwt
     implementation('com.auth0:java-jwt:3.19.2') // oauth
+    implementation('io.jsonwebtoken:jjwt:0.9.1') // okta
 
     // DB
     runtimeOnly 'mysql:mysql-connector-java'

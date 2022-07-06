@@ -48,13 +48,15 @@ public class User extends BaseTimeEntity implements UserDetails {
 
 
     public String getRoleKey(){
-        return this.role.getKey();
+        return this.role.toString();
     }
 
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
     private Set<UserAuthority> authorities;
+
+
 
     @Override
     public String getUsername() {

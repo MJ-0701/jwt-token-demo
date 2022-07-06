@@ -26,6 +26,8 @@ public class UserSaveReqDto {
 
     private String password;
 
+    private boolean enabled;
+
 
 
 
@@ -37,6 +39,7 @@ public class UserSaveReqDto {
                 .email(email)
                 .password(password)
                 .role(Role.USER)
+                .enabled(true)
                 .build();
     }
 

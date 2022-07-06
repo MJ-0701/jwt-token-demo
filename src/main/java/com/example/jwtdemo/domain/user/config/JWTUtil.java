@@ -6,20 +6,22 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.jwtdemo.domain.user.domain.User;
 import com.example.jwtdemo.domain.user.web.dto.res.TokenVerifyResult;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 
 public class JWTUtil {
 
-    private static final Algorithm ALGORITHM = Algorithm.HMAC256("jack");
-//    private static final long AUTH_TIME = 20*60; // 20분
+    private static final Algorithm ALGORITHM = Algorithm.HMAC256("spring-boot-jwt");
+    private static final long AUTH_TIME = 20*60; // 20분
 
-    private static final long AUTH_TIME = 2;
+//    private static final long AUTH_TIME = 2;
     private static final long REFRESH_TIME = 60*60*24*7; // 1주일
 
     // 토큰 생성
     public static String makeAuthToken(User user){
         return JWT.create()
-                .withSubject(user.getUserId()) // user_id 만 넣어서 생성
+                .withSubject(user.getUserId())
+                .withClaim("role", user.getRoleKey())
                 .withClaim("exp", Instant.now().getEpochSecond()+AUTH_TIME) // 토큰 유효 시간 -> Date 클래스 사용 안하고
                 .sign(ALGORITHM);
     }
@@ -28,6 +30,7 @@ public class JWTUtil {
     public static String makeRefreshToken(User user){
         return JWT.create()
                 .withSubject(user.getUserId())
+                .withClaim("role", user.getRoleKey())
                 .withClaim("exp", Instant.now().getEpochSecond()+REFRESH_TIME)
                 .sign(ALGORITHM);
     }
@@ -47,6 +50,10 @@ public class JWTUtil {
                     .build();
         }
 
+    }
+
+    public String resolveToken(HttpServletRequest request){
+        return request.getHeader("X-AUTH-TOKEN");
     }
 
 
