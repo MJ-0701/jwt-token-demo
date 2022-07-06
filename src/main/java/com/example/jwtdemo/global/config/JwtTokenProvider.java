@@ -25,7 +25,9 @@ public class JwtTokenProvider {
     private String secretKey = "spring-boot-jwt";
 
     // 토큰 유효시간
-    private long tokenValidTime = 30 * 60 * 1000L; // 30분
+    private final long tokenValidTime = 30 * 60 * 1000L; // 30분
+
+    private final long refreshTime = 60 * 60 * 24 * 7; // 일주일
 
     private final UserDetailsService userDetailsService;
 
@@ -36,8 +38,8 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String userPk, Role roles){
-        Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
+    public String createToken(String userId, Role roles){
+        Claims claims = Jwts.claims().setSubject(userId); // JWT payload 에 저장되는 정보단위
         claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
         Date now = new Date();
         return Jwts.builder()
@@ -47,6 +49,20 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
+    public String refreshToken(String userId, Role roles){
+        Claims claims = Jwts.claims().setSubject(userId);
+        claims.put("roles", roles);
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime()+ refreshTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token){

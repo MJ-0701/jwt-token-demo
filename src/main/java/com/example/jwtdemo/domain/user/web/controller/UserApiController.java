@@ -45,48 +45,10 @@ public class UserApiController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequestDto loginRequestDto){
 
-//        RestTemplate client = new RestTemplate();
-//        HttpHeaders header = new HttpHeaders();
-//        HttpEntity<UserLoginRequestDto> body = new HttpEntity<>(
-//                UserLoginRequestDto
-//                        .builder()
-//                        .userId(loginRequestDto.getUserId())
-//                        .password(loginRequestDto.getPassword())
-//                        .build()
-//        );
-//
-//        ResponseEntity<User> response = client.exchange(uri("/login"), HttpMethod.POST, body, User.class);
-//
-//        UserTokenInfo token = UserTokenInfo
-//                .builder()
-//                .authToken(response.getHeaders().get("auth_token").get(0))
-//                .refreshToken(response.getHeaders().get("refresh_token").get(0))
-//                .build();
-//
-//        header.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
-//        HttpEntity httpEntity = new HttpEntity<>(null, header);
-//
-//
-//        return ResponseEntity.ok(httpEntity);
-
-
-//        User user = userService.findByUserIdAndPassword(loginRequestDto.getUserId(), loginRequestDto.getPassword());
-//        String userToken = JWTUtil.makeAuthToken(user);
-//        return ResponseEntity.ok(userToken);
-
         User user = userService.findByUserIdAndPassword(loginRequestDto.getUserId(), loginRequestDto.getPassword());
         return ResponseEntity.ok(jwtTokenProvider.createToken(user.getUserId(), user.getRole()));
     }
 
-
-
-    public URI uri(String path) {
-        try {
-            return new URI(format("http://localhost:%d%s", 8080, path));
-        }catch(Exception ex){
-            throw new IllegalArgumentException();
-        }
-    }
 
 
 
