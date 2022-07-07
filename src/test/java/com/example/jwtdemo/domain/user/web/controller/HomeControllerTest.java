@@ -46,7 +46,7 @@ class HomeControllerTest extends WebIntegrationTest {
         HttpEntity<UserLoginRequestDto> body = new HttpEntity<>(
                 UserLoginRequestDto.builder().userId("user1").password("1111").build()
         ); // 해당 body로 로그인 요청이 오면 JWTLoginFileter 에서 해당 request에 대한 검증을 시작.
-        ResponseEntity<User> resp1 = client.exchange(uri("/login"), HttpMethod.POST, body, User.class); // 실제 토큰 생성 부분 -> 검사 후 id/pwd가 유효 하다면 토큰생성
+        ResponseEntity<User> resp1 = client.exchange(uri("/api/v1/user/login/client"), HttpMethod.POST, body, User.class); // 실제 토큰 생성 부분 -> 검사 후 id/pwd가 유효 하다면 토큰생성
 
         return UserTokenInfo.builder().authToken(resp1.getHeaders().get("auth_token").get(0)) // 헤더에 토큰값이 들어옴
                 .refreshToken(resp1.getHeaders().get("refresh_token").get(0))
@@ -58,7 +58,7 @@ class HomeControllerTest extends WebIntegrationTest {
         HttpEntity<UserLoginRequestDto> body = new HttpEntity<>(
                 UserLoginRequestDto.builder().refreshToken(refreshToken).build()
         );
-        ResponseEntity<User> resp1 = client.exchange(uri("/login"), HttpMethod.POST, body, User.class);
+        ResponseEntity<User> resp1 = client.exchange(uri("/api/v1/user/login/client"), HttpMethod.POST, body, User.class);
         return UserTokenInfo.builder().authToken(resp1.getHeaders().get("auth_token").get(0))
                 .refreshToken(resp1.getHeaders().get("refresh_token").get(0))
                 .build();

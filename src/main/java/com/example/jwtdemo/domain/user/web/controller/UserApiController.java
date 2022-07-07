@@ -26,6 +26,7 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class UserApiController {
 
+
     private final UserService userService;
 
     @PostMapping("/create")
@@ -42,7 +43,7 @@ public class UserApiController {
     }
 
     // 토큰 생성
-    @PostMapping("/login")
+    @PostMapping("/login/client")
     public ResponseEntity<UserTokenInfo> login(
             @RequestBody UserLoginRequestDto userLoginRequestDto){
 
@@ -56,6 +57,20 @@ public class UserApiController {
                         .refreshToken(refresh_token)
                         .build());
 
+    }
+
+    @PostMapping("/login/mobile")
+    public ResponseEntity<UserTokenInfo> mobileLogin(
+            @RequestBody UserLoginRequestDto userLoginRequestDto
+    ){
+
+        ResponseEntity<User> user = ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
+
+        return ResponseEntity.ok(UserTokenInfo
+                .builder()
+                .authToken(user.getHeaders().get("auth_token").get(0))
+                .refreshToken(user.getHeaders().get("refresh_token").get(0))
+                .build());
     }
 
 

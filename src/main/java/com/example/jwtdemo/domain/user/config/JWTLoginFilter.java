@@ -29,7 +29,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
     public JWTLoginFilter(AuthenticationManager authenticationManager, UserService userService){
         super(authenticationManager);
         this.userService = userService;
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl("/api/v1/user/login/*");
+
     }
 
 
@@ -78,8 +79,4 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
         response.getOutputStream().write(objectMapper.writeValueAsBytes(user)); // 인증된 토큰을 유저객체에 발행
 
     }
-
-//    public String resolveToken(HttpServletRequest request){
-//        return request.getHeader("X-AUTH-TOKEN");
-//    }
 }
