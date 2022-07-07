@@ -18,8 +18,8 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/spring_test?useSSl=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root
+    username: jack
+    password: jack
 
 
 

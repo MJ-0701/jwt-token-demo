@@ -45,8 +45,8 @@ class HomeControllerTest extends WebIntegrationTest {
         RestTemplate client = new RestTemplate();
         HttpEntity<UserLoginRequestDto> body = new HttpEntity<>(
                 UserLoginRequestDto.builder().userId("user1").password("1111").build()
-        );
-        ResponseEntity<User> resp1 = client.exchange(uri("/login"), HttpMethod.POST, body, User.class);
+        ); // 로그인 유효성 검사
+        ResponseEntity<User> resp1 = client.exchange(uri("/login"), HttpMethod.POST, body, User.class); // 실제 토큰 생성 부분
         return UserTokenInfo.builder().authToken(resp1.getHeaders().get("auth_token").get(0))
                 .refreshToken(resp1.getHeaders().get("refresh_token").get(0))
                 .build();
@@ -63,7 +63,7 @@ class HomeControllerTest extends WebIntegrationTest {
                 .build();
     }
 
-    @DisplayName("1. hello 메시지를 받아온다... ")
+    @DisplayName("1. hello 메시지 접근 가능 확인")
     @Test
     void test_1(){
         UserTokenInfo token = getToken();
