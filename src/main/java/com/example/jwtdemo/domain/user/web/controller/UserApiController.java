@@ -8,11 +8,18 @@ import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserTokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.URI;
+
+import static java.lang.String.format;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -36,17 +43,19 @@ public class UserApiController {
 
     // 토큰 생성
     @PostMapping("/login")
-    public ResponseEntity<UserTokenInfo> login(@RequestBody UserLoginRequestDto userLoginRequestDto){
-        // 현재 문제점 HttpServletRequest 요청이 가지 않음.
+    public ResponseEntity<UserTokenInfo> login(
+            @RequestBody UserLoginRequestDto userLoginRequestDto){
 
-       User user = userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword());
-       String token = JWTUtil.makeAuthToken(user);
+        User user = userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword());
+        String token = JWTUtil.makeAuthToken(user);
+        String refresh_token = JWTUtil.makeRefreshToken(user);
 
-       return ResponseEntity.ok( // 사실상 검증되지 않은 토큰 발행중
-               UserTokenInfo.builder()
-               .authToken(token)
-               .refreshToken(token)
-               .build());
+        return ResponseEntity.ok(
+                UserTokenInfo.builder()
+                        .authToken(token)
+                        .refreshToken(refresh_token)
+                        .build());
+
     }
 
 

@@ -71,13 +71,15 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
 //        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE); // json 값을 받기위한 설정.
 //        response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
 
+        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer"); // 인증 테스트 -> KEY : Authorization Value : Bearer + 토큰 값.
         response.setHeader("auth_token", JWTUtil.makeAuthToken(user));
         response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user));
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getOutputStream().write(objectMapper.writeValueAsBytes(user)); // 인증된 토큰을 유저객체에 발행
+
     }
 
-    public String resolveToken(HttpServletRequest request){
-        return request.getHeader("X-AUTH-TOKEN");
-    }
+//    public String resolveToken(HttpServletRequest request){
+//        return request.getHeader("X-AUTH-TOKEN");
+//    }
 }
