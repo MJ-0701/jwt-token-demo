@@ -2,6 +2,7 @@ package com.example.jwtdemo.domain.user.web.controller;
 
 import com.example.jwtdemo.domain.user.config.JWTUtil;
 import com.example.jwtdemo.domain.user.domain.User;
+import com.example.jwtdemo.domain.user.service.UserAddressService;
 import com.example.jwtdemo.domain.user.service.UserService;
 import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
@@ -28,6 +29,8 @@ public class UserApiController {
 
 
     private final UserService userService;
+
+    private final UserAddressService userAddressService;
 
     @PostMapping("/create")
     public ResponseEntity<Long> create(@RequestBody @Valid UserSaveReqDto reqDto){

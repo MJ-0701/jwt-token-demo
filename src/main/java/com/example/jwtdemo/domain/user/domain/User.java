@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,6 +59,9 @@ public class User extends BaseTimeEntity implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
     private Set<UserAuthority> authorities;
+
+    @ManyToOne
+    private UserAddress userAddress;
 
     @Override
     public String getUsername() {

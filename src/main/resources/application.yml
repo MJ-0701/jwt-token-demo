@@ -20,6 +20,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: jack
     password: jack
+# Swagger 설정
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 
 

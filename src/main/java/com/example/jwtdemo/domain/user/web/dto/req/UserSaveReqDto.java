@@ -2,6 +2,7 @@ package com.example.jwtdemo.domain.user.web.dto.req;
 
 import com.example.jwtdemo.domain.user.domain.Role;
 import com.example.jwtdemo.domain.user.domain.User;
+import com.example.jwtdemo.domain.user.domain.UserAddress;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,8 @@ public class UserSaveReqDto {
 
     private String password;
 
+    private UserAddress userAddress;
+
 
 
 
@@ -38,6 +41,7 @@ public class UserSaveReqDto {
                 .password(password)
                 .role(Role.USER)
                 .enabled(true)
+                .userAddress(userAddress)
                 .build();
     }
 

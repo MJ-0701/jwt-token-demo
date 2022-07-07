@@ -2,6 +2,7 @@ package com.example.jwtdemo.domain.user.service;
 
 import com.example.jwtdemo.domain.user.domain.User;
 import com.example.jwtdemo.domain.user.domain.UserAuthority;
+import com.example.jwtdemo.domain.user.domain.repository.UserAdressRepository;
 import com.example.jwtdemo.domain.user.domain.repository.UserRepository;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+
+    private final UserAdressRepository userAdressRepository;
 
     @Transactional
     public User save(User user){
