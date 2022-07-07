@@ -44,7 +44,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
             );
             // user details...
             return getAuthenticationManager().authenticate(token); // getAuthenticationManager 토큰 검증 요청
-        }else{
+        }else{ // 리프레쉬 토큰으로 들어오면 토큰이 유효한지 검증 한다.
             TokenVerifyResult verify = JWTUtil.verify(userLogin.getRefreshToken());
             if(verify.isSuccess()){
                 User user = (User) userService.loadUserByUsername(verify.getUserId());
@@ -71,8 +71,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
 //        response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
 
         response.setHeader("auth_token", JWTUtil.makeAuthToken(user));
-        response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user)); //
+        response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user));
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
+        response.getOutputStream().write(objectMapper.writeValueAsBytes(user)); // 인증된 토큰을 유저객체에 발행
     }
 }

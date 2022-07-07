@@ -46,7 +46,7 @@ class HomeControllerTest extends WebIntegrationTest {
         HttpEntity<UserLoginRequestDto> body = new HttpEntity<>(
                 UserLoginRequestDto.builder().userId("user1").password("1111").build()
         ); // 로그인 유효성 검사
-        ResponseEntity<User> resp1 = client.exchange(uri("/login"), HttpMethod.POST, body, User.class); // 실제 토큰 생성 부분
+        ResponseEntity<User> resp1 = client.exchange(uri("/login"), HttpMethod.POST, body, User.class); // 실제 토큰 생성 부분 -> 검사 후 id/pwd가 유효 하다면 토큰생성
         return UserTokenInfo.builder().authToken(resp1.getHeaders().get("auth_token").get(0))
                 .refreshToken(resp1.getHeaders().get("refresh_token").get(0))
                 .build();

@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -20,6 +21,11 @@ public class UserApiController {
 
     private final UserService userService;
 
+    @PostMapping("/create")
+    public ResponseEntity<Long> create(@RequestBody @Valid UserSaveReqDto reqDto){
+
+        return ResponseEntity.ok(userService.createUser(reqDto));
+    }
 
     @PostMapping("/save")
     public ResponseEntity<User> save(@RequestBody @Valid UserSaveReqDto reqDto){
@@ -27,33 +33,19 @@ public class UserApiController {
         userService.addAuthority(user.getIdx(), "ROLE_USER");
         return ResponseEntity.ok(user);
     }
-    @PostMapping("/create")
-    public ResponseEntity<Long> create(@RequestBody @Valid UserSaveReqDto reqDto){
-
-        return ResponseEntity.ok(userService.createUser(reqDto));
-    }
 
     // 토큰 생성
     @PostMapping("/login")
     public ResponseEntity<UserTokenInfo> login(@RequestBody UserLoginRequestDto userLoginRequestDto){
 
-        HttpEntity<UserLoginRequestDto> httpBody = new HttpEntity<>(
-                UserLoginRequestDto.builder()
-                        .userId(userLoginRequestDto.getUserId())
-                        .password(userLoginRequestDto.getPassword())
-                        .build()
-        );
-        ResponseEntity<User> user = ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
+       User user = userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword());
+       String token = JWTUtil.makeAuthToken(user);
 
-        UserTokenInfo token = UserTokenInfo
-                .builder()
-                .authToken(user.getHeaders().get("auth_token").get(0))
-                .refreshToken(user.getHeaders().get("refresh_token").get(0))
-                .build();
-
-        return ResponseEntity.ok(token);
-
-
+       return ResponseEntity.ok(
+               UserTokenInfo.builder()
+               .authToken(token)
+               .refreshToken(token)
+               .build());
     }
 
 

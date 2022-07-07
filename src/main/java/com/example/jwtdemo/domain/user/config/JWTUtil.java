@@ -10,7 +10,7 @@ import java.time.Instant;
 
 public class JWTUtil {
 
-    private static final Algorithm ALGORITHM = Algorithm.HMAC256("jack");
+    private static final Algorithm ALGORITHM = Algorithm.HMAC256("SpringBoot-JWTToken-Login");
 //    private static final long AUTH_TIME = 20*60; // 20분
 
     private static final long AUTH_TIME = 2;
@@ -33,17 +33,18 @@ public class JWTUtil {
     }
 
     public static TokenVerifyResult verify(String token){ // 토큰 유효성 검사
+
         try {
             DecodedJWT verify = JWT.require(ALGORITHM).build().verify(token);
             return TokenVerifyResult.builder()
                     .success(true) // 유효 하다면 성공
-                    .userId(verify.getSubject())
+                    .userId(verify.getSubject()) // 누가 요청했는지
                     .build();
         }catch (Exception e){
             DecodedJWT decode = JWT.require(ALGORITHM).build().verify(token);
             return TokenVerifyResult.builder()
                     .success(false) // 유효 하지 않다면 실패
-                    .userId(decode.getSubject()) // 누가 요청했는지
+                    .userId(decode.getSubject())
                     .build();
         }
 
