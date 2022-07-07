@@ -4,6 +4,7 @@ import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import com.example.jwtdemo.global.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,7 +37,8 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @Email
     @Column(unique = true)
-    private String email; // todo :: validation 붙일것.
+    @Comment("이메일")
+    private String email;
 
     private String password;
 
@@ -47,9 +49,9 @@ public class User extends BaseTimeEntity implements UserDetails {
     private boolean enabled;
 
 
-    public String getRoleKey(){
-        return this.role.getKey();
-    }
+//    public String getRoleKey(){
+//        return this.role.getKey();
+//    }
 
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

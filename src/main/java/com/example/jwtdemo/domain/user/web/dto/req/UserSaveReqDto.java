@@ -37,6 +37,7 @@ public class UserSaveReqDto {
                 .email(email)
                 .password(password)
                 .role(Role.USER)
+                .enabled(true)
                 .build();
     }
 

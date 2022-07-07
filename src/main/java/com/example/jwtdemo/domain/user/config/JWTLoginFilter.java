@@ -29,7 +29,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
     public JWTLoginFilter(AuthenticationManager authenticationManager, UserService userService){
         super(authenticationManager);
         this.userService = userService;
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl("/api/v1/user/login/*");
+
     }
 
 
@@ -44,7 +45,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
             );
             // user details...
             return getAuthenticationManager().authenticate(token); // getAuthenticationManager 토큰 검증 요청
-        }else{
+        }else{ // 리프레쉬 토큰으로 들어오면 토큰이 유효한지 검증 한다.
             TokenVerifyResult verify = JWTUtil.verify(userLogin.getRefreshToken());
             if(verify.isSuccess()){
                 User user = (User) userService.loadUserByUsername(verify.getUserId());
@@ -67,12 +68,15 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter { // Us
             Authentication authResult) throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
 //        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer" + JWTUtil.makeAuthToken(user)); // 토큰 발행 ->  Bearer 토큰이라고 명시해줌(규약)
+//        response.setHeader(HttpHeaders.AUTHORIZATION,"Bearer" + JWTUtil.makeRefreshToken(user)); // 리프레쉬 토큰도 함께 발행 하여 주고 리프레쉬 토큰은 요청 될때 마다 재 발행되는 식으로 설계.
 //        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE); // json 값을 받기위한 설정.
 //        response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
 
+        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer"); // 인증 테스트 -> KEY : Authorization Value : Bearer + 토큰 값.
         response.setHeader("auth_token", JWTUtil.makeAuthToken(user));
-        response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user)); //
+        response.setHeader("refresh_token", JWTUtil.makeRefreshToken(user));
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        response.getOutputStream().write(objectMapper.writeValueAsBytes(user));
+        response.getOutputStream().write(objectMapper.writeValueAsBytes(user)); // 인증된 토큰을 유저객체에 발행
+
     }
 }
