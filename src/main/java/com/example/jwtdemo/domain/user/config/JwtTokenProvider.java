@@ -1,4 +1,4 @@
-package com.example.jwtdemo.global.config;
+package com.example.jwtdemo.domain.user.config;
 
 import com.example.jwtdemo.domain.user.domain.Role;
 import io.jsonwebtoken.Claims;

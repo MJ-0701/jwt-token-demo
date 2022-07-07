@@ -1,5 +1,7 @@
 package com.example.jwtdemo.global.config;
 
+import com.example.jwtdemo.domain.user.config.JwtAuthenticationFilter;
+import com.example.jwtdemo.domain.user.config.JwtTokenProvider;
 import com.example.jwtdemo.domain.user.domain.Role;
 import com.example.jwtdemo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

@@ -4,14 +4,13 @@ import com.example.jwtdemo.domain.user.domain.User;
 import com.example.jwtdemo.domain.user.service.UserService;
 import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
-//import com.example.jwtdemo.global.config.JwtTokenProvider;
-import com.example.jwtdemo.global.config.JwtTokenProvider;
+//import com.example.jwtdemo.domain.user.config.JwtTokenProvider;
+import com.example.jwtdemo.domain.user.config.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 
 import static java.lang.String.format;
 
