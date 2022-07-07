@@ -37,11 +37,12 @@ public class UserApiController {
     // 토큰 생성
     @PostMapping("/login")
     public ResponseEntity<UserTokenInfo> login(@RequestBody UserLoginRequestDto userLoginRequestDto){
+        // 현재 문제점 HttpServletRequest 요청이 가지 않음.
 
        User user = userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword());
        String token = JWTUtil.makeAuthToken(user);
 
-       return ResponseEntity.ok(
+       return ResponseEntity.ok( // 사실상 검증되지 않은 토큰 발행중
                UserTokenInfo.builder()
                .authToken(token)
                .refreshToken(token)
