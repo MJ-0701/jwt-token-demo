@@ -58,6 +58,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
     private Set<UserAuthority> authorities;
 
+    private UserAddress userAddress;
     @Override
     public String getUsername() {
         return userName;
