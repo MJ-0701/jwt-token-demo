@@ -61,7 +61,6 @@ public class User extends BaseTimeEntity implements UserDetails {
     private Set<UserAuthority> authorities;
 
     @ManyToOne
-    @JoinColumn(name = "user_address_idx")
     private UserAddress userAddress;
 
     @Override
