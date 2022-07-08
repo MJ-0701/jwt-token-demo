@@ -84,6 +84,12 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUserId(username).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
     }
 
+
+    @Transactional(readOnly = true)
+    public List<User>findByEmailLike(String email){
+        return userRepository.findByEmailLike(email);
+    }
+
     // address
     @Transactional(readOnly = true)
     public List<User> findByUserAddress(String address){

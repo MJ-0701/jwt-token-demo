@@ -84,8 +84,13 @@ public class UserApiController {
         return ResponseEntity.ok(userService.findByIdx(id));
     }
 
+    @GetMapping("/find-email")
+    public ResponseEntity<List<User>> findEmailLike(@RequestParam(name = "email") String email){
+        return ResponseEntity.ok(userService.findByEmailLike(email));
+    }
+
     @GetMapping("/find-address")
-    public ResponseEntity<List<User>> findAddress(@RequestParam String address){
+    public ResponseEntity<List<User>> findAddress(@RequestParam(name = "address") String address){
         System.out.println("확인 :" + address);
         System.out.println(userService.findByUserAddress(address));
 
