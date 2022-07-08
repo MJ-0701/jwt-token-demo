@@ -31,11 +31,10 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     private String userName;
 
-//    @Column(unique = true)
+    @Column(unique = true)
     private String userId;
 
     @Email
-    @Column(unique = true)
     private String email; // todo :: validation 붙일것.
 
     private String password;
