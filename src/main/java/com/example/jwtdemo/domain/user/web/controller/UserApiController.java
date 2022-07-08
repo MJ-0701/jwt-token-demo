@@ -45,7 +45,7 @@ public class UserApiController {
         return ResponseEntity.ok(user);
     }
 
-    // 토큰 생성
+    // 로그인 -> 토큰생성
     @PostMapping("/login/client")
     public ResponseEntity<UserTokenInfo> login(
             @RequestBody UserLoginRequestDto userLoginRequestDto){
@@ -63,7 +63,7 @@ public class UserApiController {
     }
 
     @PostMapping("/login/mobile")
-    public ResponseEntity<UserTokenInfo> mobileLogin(
+    public ResponseEntity<UserTokenInfo> mobileLoginTest(
             @RequestBody UserLoginRequestDto userLoginRequestDto
     ){
 
@@ -74,6 +74,17 @@ public class UserApiController {
                 .authToken(user.getHeaders().get("auth_token").get(0))
                 .refreshToken(user.getHeaders().get("refresh_token").get(0))
                 .build());
+    }
+
+    @PostMapping("/login/web-client")
+    public ResponseEntity<User> webLogin(@RequestBody UserLoginRequestDto userLoginRequestDto){
+        return ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
+
+    }
+
+    @PostMapping("/login/mobile-client")
+    public ResponseEntity<User> mobileLogin(@RequestBody UserLoginRequestDto userLoginRequestDto){
+        return ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
     }
 
 
