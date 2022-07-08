@@ -4,6 +4,7 @@ import com.example.jwtdemo.domain.user.config.JWTUtil;
 import com.example.jwtdemo.domain.user.domain.User;
 import com.example.jwtdemo.domain.user.service.UserAddressService;
 import com.example.jwtdemo.domain.user.service.UserService;
+import com.example.jwtdemo.domain.user.web.dto.req.UserAddressRegisterDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserTokenInfo;
@@ -33,9 +34,12 @@ public class UserApiController {
     private final UserAddressService userAddressService;
 
     @PostMapping("/create")
-    public ResponseEntity<Long> create(@RequestBody @Valid UserSaveReqDto reqDto){
+    public ResponseEntity<Long> create(
+            @RequestBody @Valid UserSaveReqDto reqDto,
+            @RequestBody UserAddressRegisterDto registerDto
+    ){
 
-        return ResponseEntity.ok(userService.createUser(reqDto));
+        return ResponseEntity.ok(userService.createUser(reqDto, registerDto));
     }
 
     @PostMapping("/save")

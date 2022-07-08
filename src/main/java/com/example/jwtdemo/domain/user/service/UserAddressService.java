@@ -1,7 +1,8 @@
 package com.example.jwtdemo.domain.user.service;
 
-import com.example.jwtdemo.domain.user.domain.repository.UserAdressRepository;
-import com.example.jwtdemo.domain.user.domain.repository.UserRepository;
+import com.example.jwtdemo.domain.user.domain.UserAddress;
+import com.example.jwtdemo.domain.user.domain.repository.UserAddressRepository;
+import com.example.jwtdemo.domain.user.web.dto.req.UserAddressRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +12,13 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class UserAddressService {
 
-    private final UserAdressRepository userAdressRepository;
+    private final UserAddressRepository userAddressRepository;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
-    public String addressRegister(){
+    public UserAddress addressRegister(UserAddressRegisterDto userAddressRegisterDto){
 
-
-        return null;
+        return userAddressRepository.save(userAddressRegisterDto.toEntity());
     }
 }
