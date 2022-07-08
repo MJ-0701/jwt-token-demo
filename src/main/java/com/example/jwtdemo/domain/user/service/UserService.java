@@ -1,10 +1,12 @@
 package com.example.jwtdemo.domain.user.service;
 
 import com.example.jwtdemo.domain.user.domain.User;
+import com.example.jwtdemo.domain.user.domain.UserAddress;
 import com.example.jwtdemo.domain.user.domain.UserAuthority;
 import com.example.jwtdemo.domain.user.domain.repository.UserRepository;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +40,10 @@ public class UserService implements UserDetailsService {
     public User findByUserId(String id){
         return userRepository.findByUserId(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
+    }
+
+    public User findByIdx(Long idx){
+        return userRepository.findByIdx(idx);
     }
 
     public void addAuthority(Long id, String authority){
@@ -75,5 +82,11 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUserId(username).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+    }
+
+    // address
+    @Transactional(readOnly = true)
+    public List<User> findByUserAddress(String address){
+        return userRepository.findByUserAddressLike(address);
     }
 }
