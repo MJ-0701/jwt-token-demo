@@ -19,14 +19,12 @@ public class UserAddressRegisterDto {
 
     private String zoneCode;
 
-    private List<User> userList;
 
     public UserAddress toEntity(){
         return UserAddress
                 .builder()
                 .address(address)
                 .zoneCode(zoneCode)
-                .userList(userList)
                 .build();
     }
 }

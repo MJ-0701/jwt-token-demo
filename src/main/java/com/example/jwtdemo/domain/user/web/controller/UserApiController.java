@@ -35,11 +35,10 @@ public class UserApiController {
 
     @PostMapping("/create")
     public ResponseEntity<Long> create(
-            @RequestBody @Valid UserSaveReqDto reqDto,
-            @RequestBody UserAddressRegisterDto registerDto
+            @RequestBody @Valid UserSaveReqDto reqDto
     ){
 
-        return ResponseEntity.ok(userService.createUser(reqDto, registerDto));
+        return ResponseEntity.ok(userService.createUser(reqDto));
     }
 
     @PostMapping("/save")

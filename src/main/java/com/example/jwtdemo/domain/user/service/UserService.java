@@ -35,15 +35,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Long createUser(UserSaveReqDto reqDto, UserAddressRegisterDto registerDto){
-        UserAddress address = userAddressRepository.findByIdx(registerDto.toEntity().getIdx());
+    public Long createUser(UserSaveReqDto reqDto){
+        //UserAddress address = userAddressRepository.save(registerDto.toEntity());
 
         UserSaveReqDto saveReqDto = UserSaveReqDto
                 .builder()
                 .userName(reqDto.getUserName())
                 .email(reqDto.getEmail())
                 .password(reqDto.getPassword())
-                .userAddress(address)
+                .userAddress(reqDto.getUserAddress())
                 .build();
 
         return userRepository.save(saveReqDto.toEntity()).getIdx();

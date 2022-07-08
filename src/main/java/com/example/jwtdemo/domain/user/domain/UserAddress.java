@@ -21,9 +21,9 @@ public class UserAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
-    private List<User> userList = new ArrayList<>(); // 하나의 주소에 여러명의 유저가 있을 수 있다. (가족)
+//    @OneToMany(fetch = FetchType.LAZY)
+////    @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
+//    private List<User> userList = new ArrayList<>(); // 하나의 주소에 여러명의 유저가 있을 수 있다. (가족)
 
     private String zoneCode;
 
