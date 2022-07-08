@@ -38,7 +38,7 @@ public class UserSaveReqDto {
                 .password(password)
                 .role(Role.USER)
                 .enabled(true)
-                .userAddress(userAddress)
+//                .userAddress(userAddress)
                 .build();
     }
 

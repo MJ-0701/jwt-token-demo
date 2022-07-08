@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,9 +20,8 @@ public class UserAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @OneToOne
-    @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
-    private User user;
+    @OneToMany(mappedBy = "userAddress")
+    private List<User> userList;
 
     private String zoneCode;
 
