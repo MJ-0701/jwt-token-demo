@@ -35,12 +35,6 @@ public class UserSaveReqDto {
 
 
 
-    @JoinColumn(name = "user_address_idx")
-    @JsonProperty("user_address")
-    private UserAddress userAddress;
-
-
-
     public User toEntity(){
         return User.builder()
                 .userName(userName)
@@ -49,7 +43,6 @@ public class UserSaveReqDto {
                 .password(password)
                 .role(Role.USER)
                 .enabled(true)
-
                 .userAddress(userAddress)
 //                .companyAddress(companyAddress)
 //                .userAddress(userAddress)

@@ -1,16 +1,11 @@
 package com.example.jwtdemo.domain.user.service;
 
 import com.example.jwtdemo.domain.user.domain.User;
-import com.example.jwtdemo.domain.user.domain.UserAddress;
 import com.example.jwtdemo.domain.user.domain.UserAuthority;
-import com.example.jwtdemo.domain.user.domain.repository.UserAddressRepository;
 import com.example.jwtdemo.domain.user.domain.repository.UserRepository;
-import com.example.jwtdemo.domain.user.web.dto.req.UserAddressRegisterDto;
-import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,8 +20,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    private final UserAddressRepository userAddressRepository;
+    ;
 
     @Transactional
     public User save(User user){
