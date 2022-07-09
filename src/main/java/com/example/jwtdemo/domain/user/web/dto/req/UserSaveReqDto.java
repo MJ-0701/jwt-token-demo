@@ -2,13 +2,12 @@ package com.example.jwtdemo.domain.user.web.dto.req;
 
 import com.example.jwtdemo.domain.user.domain.Role;
 import com.example.jwtdemo.domain.user.domain.User;
+import com.example.jwtdemo.domain.user.domain.UserAddress;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 
 @Getter
 @NoArgsConstructor
@@ -26,8 +25,9 @@ public class UserSaveReqDto {
 
     private String password;
 
-
-
+    @JoinColumn(name = "user_address_idx")
+    @JsonProperty("user_address")
+    private UserAddress userAddress;
 
 
     public User toEntity(){
@@ -38,6 +38,7 @@ public class UserSaveReqDto {
                 .password(password)
                 .role(Role.USER)
                 .enabled(true)
+//                .userAddress(userAddress)
                 .build();
     }
 
