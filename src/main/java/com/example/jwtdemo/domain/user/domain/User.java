@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,6 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String userId;
 
     @Email
-    @Column(unique = true)
     @Comment("이메일")
     private String email;
 
@@ -59,6 +60,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
     private Set<UserAuthority> authorities;
 
+
     @Embedded
     @AttributeOverride(name = "zoneCode", column = @Column(name = "user_zone_code", nullable = false))
     @AttributeOverride(name = "address", column = @Column(name = "user_address", nullable = false))
@@ -69,6 +71,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 //    @AttributeOverride(name = "zoneCode", column = @Column(name = "company_zone_code"))
 //    @AttributeOverride(name = "address", column = @Column(name = "company_address"))
 //    private UserAddress companyAddress;
+
     @Override
     public String getUsername() {
         return userName;

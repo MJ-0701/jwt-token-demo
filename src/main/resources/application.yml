@@ -6,6 +6,7 @@ spring:
   # jpa 설정
   jpa:
     hibernate:
+
       ddl-auto: 'create-drop'
     show-sql: true
     properties:
@@ -20,6 +21,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: jack
     password: jack
+# Swagger 설정
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   # Swagger 설정
   mvc:
