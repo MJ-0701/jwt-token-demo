@@ -4,6 +4,7 @@ import com.example.jwtdemo.domain.user.domain.User;
 import com.example.jwtdemo.domain.user.service.UserService;
 import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
+import com.example.jwtdemo.domain.user.web.dto.res.UserAddressInfoResponseDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserTokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -76,20 +77,6 @@ public class UserApiController {
         return ResponseEntity.ok(userService.findByIdx(id));
     }
 
-    @GetMapping("/find-email")
-    public ResponseEntity<List<User>> findEmailLike(@RequestParam(name = "email") String email){
-        return ResponseEntity.ok(userService.findByEmailLike(email));
-    }
-
-    @GetMapping("/find-address")
-    public ResponseEntity<List<User>> findAddress(@RequestParam(name = "address") String address) {
-        System.out.println("확인 :" + address);
-        System.out.println(userService.findByUserAddress(address));
-
-        return ResponseEntity.ok(userService.findByUserAddress(address));
-    }
-
-
     @PostMapping("/login/web-client")
     public ResponseEntity<User> webLogin (@RequestBody UserLoginRequestDto userLoginRequestDto){
         return ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
@@ -100,6 +87,25 @@ public class UserApiController {
     public ResponseEntity<User> mobileLogin(@RequestBody UserLoginRequestDto userLoginRequestDto){
         return ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
     }
+
+    @GetMapping("/find-email")
+    public ResponseEntity<List<User>> findEmailLike(@RequestParam(name = "email") String email){
+        return ResponseEntity.ok(userService.findByEmailLike(email));
+    }
+
+//    @GetMapping("/find-address")
+//    public ResponseEntity<List<User>> findAddress(@RequestParam(name = "address") String address) {
+//        System.out.println("확인 :" + address);
+//        System.out.println(userService.findByUserAddress(address));
+//
+//        return ResponseEntity.ok(userService.findByUserAddress(address));
+//    }
+
+    @GetMapping("/find/address")
+    public ResponseEntity<List<UserAddressInfoResponseDto>> findAddressResponse(@RequestParam(name = "address") String address){
+        return ResponseEntity.ok(userService.findByUserAddressResponse(address));
+    }
+
 
 
 }

@@ -4,6 +4,7 @@ import com.example.jwtdemo.domain.user.domain.User;
 import com.example.jwtdemo.domain.user.domain.UserAuthority;
 import com.example.jwtdemo.domain.user.domain.repository.UserRepository;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
+import com.example.jwtdemo.domain.user.web.dto.res.UserAddressInfoResponseDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -110,8 +111,15 @@ public class UserService implements UserDetailsService {
     }
 
     // address
+//    @Transactional(readOnly = true)
+//    public List<User> findByUserAddress(String address){
+//        return userRepository.findByUserAddressLike(address);
+//    }
+
     @Transactional(readOnly = true)
-    public List<User> findByUserAddress(String address){
-        return userRepository.findByUserAddressLike(address);
+    public List<UserAddressInfoResponseDto> findByUserAddressResponse(String address){
+        List<User> user = userRepository.findByUserAddressLike(address);
+
+        return user.stream().map(UserAddressInfoResponseDto::new).collect(Collectors.toList());
     }
 }
