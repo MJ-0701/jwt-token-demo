@@ -10,12 +10,12 @@ import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +64,11 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll().stream().map(UserResponseDto::new).collect(Collectors.toList());
     }
 
+
+    public User findByIdx(Long idx){
+        return userRepository.findByIdx(idx);
+    }
+
     @Transactional
     public void addAuthority(Long id, String authority){
         userRepository.findById(id).ifPresent(user -> {
@@ -103,5 +108,17 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUserId(username).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<User>findByEmailLike(String email){
+        return userRepository.findByEmailLike(email);
+    }
+
+    // address
+    @Transactional(readOnly = true)
+    public List<User> findByUserAddress(String address){
+        return userRepository.findByUserAddressLike(address);
     }
 }

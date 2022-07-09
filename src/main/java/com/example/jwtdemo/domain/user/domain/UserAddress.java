@@ -1,30 +1,19 @@
 package com.example.jwtdemo.domain.user.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Getter
-@NoArgsConstructor
-@Builder
-@AllArgsConstructor
+@Embeddable
 public class UserAddress {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
 
-    @OneToMany(mappedBy = "userAddress")
-    private List<User> userList;
-
+    @JsonProperty("zone_code") // 안해줄시 json 데이터 못 받음.
     private String zoneCode;
 
+    @JsonProperty("address")
     private String address;
-
 }

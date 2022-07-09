@@ -25,9 +25,20 @@ public class UserSaveReqDto {
 
     private String password;
 
+
+    @JsonProperty("user_address")
+    private UserAddress userAddress;
+
+    @JsonProperty("company_address")
+//    private UserAddress companyAddress;
+
+
+
+
     @JoinColumn(name = "user_address_idx")
     @JsonProperty("user_address")
     private UserAddress userAddress;
+
 
 
     public User toEntity(){
@@ -38,6 +49,9 @@ public class UserSaveReqDto {
                 .password(password)
                 .role(Role.USER)
                 .enabled(true)
+
+                .userAddress(userAddress)
+//                .companyAddress(companyAddress)
 //                .userAddress(userAddress)
                 .build();
     }

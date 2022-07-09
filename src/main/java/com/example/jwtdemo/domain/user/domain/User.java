@@ -5,6 +5,7 @@ import com.example.jwtdemo.global.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,8 +60,17 @@ public class User extends BaseTimeEntity implements UserDetails {
     @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
     private Set<UserAuthority> authorities;
 
-    @ManyToOne
+
+    @Embedded
+    @AttributeOverride(name = "zoneCode", column = @Column(name = "user_zone_code", nullable = false))
+    @AttributeOverride(name = "address", column = @Column(name = "user_address", nullable = false))
+    @Column(nullable = false)
     private UserAddress userAddress;
+
+//    @Embedded
+//    @AttributeOverride(name = "zoneCode", column = @Column(name = "company_zone_code"))
+//    @AttributeOverride(name = "address", column = @Column(name = "company_address"))
+//    private UserAddress companyAddress;
 
     @Override
     public String getUsername() {
