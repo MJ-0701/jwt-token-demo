@@ -7,6 +7,7 @@ import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserAddressInfoResponseDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserTokenInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,6 +84,13 @@ public class UserApiController {
 
     }
 
+    @PostMapping("/login/token/refresh")
+    public ResponseEntity<String> refreshToken(@RequestBody  UserTokenInfo tokenInfo){
+        String refreshToken = tokenInfo.getRefreshToken();
+
+        return ResponseEntity.ok(refreshToken);
+    }
+
     @PostMapping("/login/mobile-client")
     public ResponseEntity<User> mobileLogin(@RequestBody UserLoginRequestDto userLoginRequestDto){
         return ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
@@ -92,6 +100,8 @@ public class UserApiController {
     public ResponseEntity<List<User>> findEmailLike(@RequestParam(name = "email") String email){
         return ResponseEntity.ok(userService.findByEmailLike(email));
     }
+
+    // address
 
 //    @GetMapping("/find-address")
 //    public ResponseEntity<List<User>> findAddress(@RequestParam(name = "address") String address) {

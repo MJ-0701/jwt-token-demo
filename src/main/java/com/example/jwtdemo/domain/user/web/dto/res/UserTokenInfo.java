@@ -12,5 +12,5 @@ import lombok.Getter;
 public class UserTokenInfo {
     private String authToken;
     private String refreshToken;
-    private Long expTime;
+//    private Long expTime;
 }
