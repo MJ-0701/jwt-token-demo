@@ -44,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/api/v1/user/**").permitAll()
                 .antMatchers("/api/v1/user/login").hasRole(Role.USER.name())
+                .antMatchers(("/greeting")).hasRole(Role.USER.name())
+//                .antMatchers("/greeting").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                 .and()
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class) // 세션을 사용하지 않고 토큰을 사용하여 인증. -> 로그인 처리
                 .addFilterAt(checkFilter, BasicAuthenticationFilter.class) // -> 토큰 검증

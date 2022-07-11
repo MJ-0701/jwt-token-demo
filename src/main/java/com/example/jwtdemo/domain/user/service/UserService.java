@@ -30,15 +30,17 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public Long createUser(UserSaveReqDto reqDto){
-        //UserAddress address = userAddressRepository.save(registerDto.toEntity());
 
         UserSaveReqDto saveReqDto = UserSaveReqDto
                 .builder()
+                .userId(reqDto.getUserId())
                 .userName(reqDto.getUserName())
                 .email(reqDto.getEmail())
                 .password(reqDto.getPassword())
                 .userAddress(reqDto.getUserAddress())
+                .authorities(reqDto.getAuthorities())
                 .build();
+
 
         return userRepository.save(saveReqDto.toEntity()).getIdx();
     }
@@ -81,6 +83,7 @@ public class UserService implements UserDetailsService {
             }
         });
     }
+
 
     @Transactional
     public void removeAuthority(Long id, String authority){

@@ -29,8 +29,9 @@ public class UserApiController {
     public ResponseEntity<Long> create(
             @RequestBody @Valid UserSaveReqDto reqDto
     ){
-
-        return ResponseEntity.ok(userService.createUser(reqDto));
+        Long userSaveReqDto = userService.createUser(reqDto);
+        userService.addAuthority(userSaveReqDto, "ROLE_USER");
+        return ResponseEntity.ok(userSaveReqDto);
     }
 
     @PostMapping("/save")

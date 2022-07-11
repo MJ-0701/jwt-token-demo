@@ -3,11 +3,12 @@ package com.example.jwtdemo.domain.user.web.dto.req;
 import com.example.jwtdemo.domain.user.domain.Role;
 import com.example.jwtdemo.domain.user.domain.User;
 import com.example.jwtdemo.domain.user.domain.UserAddress;
+import com.example.jwtdemo.domain.user.domain.UserAuthority;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -29,6 +30,10 @@ public class UserSaveReqDto {
     @JsonProperty("user_address")
     private UserAddress userAddress;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_idx", foreignKey = @ForeignKey(name = "user_idx"))
+    private Set<UserAuthority> authorities;
+
     @JsonProperty("company_address")
 //    private UserAddress companyAddress;
 
@@ -44,6 +49,7 @@ public class UserSaveReqDto {
                 .role(Role.USER)
                 .enabled(true)
                 .userAddress(userAddress)
+                .authorities(authorities)
 //                .companyAddress(companyAddress)
 //                .userAddress(userAddress)
                 .build();
