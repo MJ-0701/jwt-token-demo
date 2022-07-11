@@ -99,6 +99,8 @@ public class User extends BaseTimeEntity implements UserDetails {
                 .userId(userId)
                 .email(email)
                 .password(password)
+                .userAddress(userAddress)
+                .authorities(authorities)
                 .build();
     }
 
