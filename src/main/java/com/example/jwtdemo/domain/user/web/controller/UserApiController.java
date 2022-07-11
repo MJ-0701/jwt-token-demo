@@ -1,28 +1,17 @@
 package com.example.jwtdemo.domain.user.web.controller;
 import com.example.jwtdemo.domain.user.config.JWTUtil;
 import com.example.jwtdemo.domain.user.domain.User;
-import com.example.jwtdemo.domain.user.domain.UserAddress;
-import com.example.jwtdemo.domain.user.service.UserAddressService;
 import com.example.jwtdemo.domain.user.service.UserService;
-import com.example.jwtdemo.domain.user.web.dto.req.UserAddressRegisterDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
 import com.example.jwtdemo.domain.user.web.dto.req.UserSaveReqDto;
-import com.example.jwtdemo.domain.user.web.dto.res.UserInfoResponseDto;
+import com.example.jwtdemo.domain.user.web.dto.res.UserAddressInfoResponseDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserTokenInfo;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -35,7 +24,6 @@ public class UserApiController {
 
     private final UserService userService;
 
-    private final UserAddressService userAddressService;
 
     @PostMapping("/create")
     public ResponseEntity<Long> create(
@@ -90,29 +78,44 @@ public class UserApiController {
         return ResponseEntity.ok(userService.findByIdx(id));
     }
 
-    @GetMapping("/find-email")
-    public ResponseEntity<List<User>> findEmailLike(@RequestParam(name = "email") String email){
-        return ResponseEntity.ok(userService.findByEmailLike(email));
-    }
-
-    @GetMapping("/find-address")
-    public ResponseEntity<List<User>> findAddress(@RequestParam(name = "address") String address){
-        System.out.println("확인 :" + address);
-        System.out.println(userService.findByUserAddress(address));
-
-        return ResponseEntity.ok(userService.findByUserAddress(address));
-
-
     @PostMapping("/login/web-client")
-    public ResponseEntity<User> webLogin(@RequestBody UserLoginRequestDto userLoginRequestDto){
+    public ResponseEntity<User> webLogin (@RequestBody UserLoginRequestDto userLoginRequestDto){
         return ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
 
+    }
+
+    @PostMapping("/login/token/refresh")
+    public ResponseEntity<String> refreshToken(@RequestBody  UserTokenInfo tokenInfo){
+        String refreshToken = tokenInfo.getRefreshToken();
+
+        return ResponseEntity.ok(refreshToken);
     }
 
     @PostMapping("/login/mobile-client")
     public ResponseEntity<User> mobileLogin(@RequestBody UserLoginRequestDto userLoginRequestDto){
         return ResponseEntity.ok(userService.findByUserIdAndPassword(userLoginRequestDto.getUserId(), userLoginRequestDto.getPassword()));
     }
+
+    @GetMapping("/find-email")
+    public ResponseEntity<List<User>> findEmailLike(@RequestParam(name = "email") String email){
+        return ResponseEntity.ok(userService.findByEmailLike(email));
+    }
+
+    // address
+
+//    @GetMapping("/find-address")
+//    public ResponseEntity<List<User>> findAddress(@RequestParam(name = "address") String address) {
+//        System.out.println("확인 :" + address);
+//        System.out.println(userService.findByUserAddress(address));
+//
+//        return ResponseEntity.ok(userService.findByUserAddress(address));
+//    }
+
+    @GetMapping("/find/address")
+    public ResponseEntity<List<UserAddressInfoResponseDto>> findAddressResponse(@RequestParam(name = "address") String address){
+        return ResponseEntity.ok(userService.findByUserAddressResponse(address));
+    }
+
 
 
 }

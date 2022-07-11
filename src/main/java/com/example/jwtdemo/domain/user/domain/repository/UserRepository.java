@@ -19,11 +19,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByIdx(Long idx);
 
 
-    @Query("SELECT u FROM User u WHERE u.userAddress.address LIKE %:userAddress%")
-    List<User> findByUserAddressLike(@Param("userAddress") String userAddress);
+//    @Query("SELECT u FROM User u WHERE u.userAddress.address LIKE %:userAddress%")
+//    List<User> findByUserAddressLike(@Param("userAddress") String userAddress);
 
     @Query("SELECT u FROM User u WHERE u.email LIKE %:email% ")
     List<User>findByEmailLike(@Param("email") String email);
+
+    @Query("SELECT u FROM User u WHERE u.userAddress.address LIKE %:address%")
+    List<User> findByUserAddressLike(@Param("address")String address);
 
 
 }

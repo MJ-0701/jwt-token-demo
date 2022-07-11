@@ -22,4 +22,5 @@ public class UserAuthority implements GrantedAuthority {
 
     @Id
     private String authority;
+
 }

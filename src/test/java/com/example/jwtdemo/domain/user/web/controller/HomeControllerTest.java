@@ -3,9 +3,11 @@ package com.example.jwtdemo.domain.user.web.controller;
 import com.example.jwtdemo.WebIntegrationTest;
 import com.example.jwtdemo.domain.user.domain.Role;
 import com.example.jwtdemo.domain.user.domain.User;
+import com.example.jwtdemo.domain.user.domain.UserAddress;
 import com.example.jwtdemo.domain.user.domain.repository.UserRepository;
 import com.example.jwtdemo.domain.user.service.UserService;
 import com.example.jwtdemo.domain.user.web.dto.req.UserLoginRequestDto;
+import com.example.jwtdemo.domain.user.web.dto.res.UserAddressInfoResponseDto;
 import com.example.jwtdemo.domain.user.web.dto.res.UserTokenInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,12 +32,16 @@ class HomeControllerTest extends WebIntegrationTest {
     void before(){
         userRepository.deleteAll();
 
+
+
+
         User user = userService.save(User
                 .builder()
                 .userId("user1")
                 .password("1111")
                 .role(Role.USER)
                 .enabled(true)
+//                .userAddress()
                 .build());
 
         userService.addAuthority(user.getIdx(), "ROLE_USER");

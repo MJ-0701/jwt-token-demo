@@ -37,13 +37,6 @@ class UserRepositoryTest {
         userService.addAuthority(user.getIdx(), "ROLE_USER");
     }
 
-    @Test
-    void findByUserAddressLike(){
-
-
-
-        System.out.println(userService.findByUserAddress(userAddress));
-    }
 
 
 
